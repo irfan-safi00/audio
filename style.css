@@ -1,0 +1,275 @@
+/* --- 1. THE FOUNDATION --- */
+:root {
+    --primary: #6366f1;       /* Indigo */
+    --accent: #f43f5e;        /* Rose/Red */
+    --bg: #0f172a;            /* Deep Blue/Dark */
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-main: #f8fafc;
+    --text-dim: #94a3b8;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top right, #1e293b, #0f172a);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    line-height: 1.6;
+}
+
+/* --- 2. MAIN CONTAINER --- */
+.container {
+    display: grid;
+    grid-template-columns: 1fr 350px; /* Two-column layout */
+    gap: 30px;
+    width: 100%;
+    max-width: 1100px;
+    background: var(--glass);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px); /* Safari support */
+    border: 1px solid var(--glass-border);
+    border-radius: 40px;
+    padding: 50px;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6);
+    animation: slideUp 0.8s ease-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 3. THE PLAYER (LEFT SIDE) --- */
+.player-main {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.cover-art {
+    width: 100%;
+    max-width: 350px;
+    aspect-ratio: 1;
+    margin: 0 auto 30px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+    transition: var(--transition);
+}
+
+.cover-art img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Thumbnail Pulse Animation when playing */
+.playing .cover-art {
+    transform: scale(1.03);
+    box-shadow: 0 0 30px rgba(99, 102, 241, 0.3);
+}
+
+.song-details h1 {
+    font-size: 2rem;
+    margin-bottom: 8px;
+    letter-spacing: -0.5px;
+}
+
+.song-details p {
+    color: var(--text-dim);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+}
+
+/* --- 4. PROGRESS BAR --- */
+.progress-area {
+    margin: 40px 0 10px;
+    cursor: pointer;
+}
+
+.bar-bg {
+    background: rgba(255,255,255,0.08);
+    height: 10px;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+}
+
+.bar-fill {
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    height: 100%;
+    width: 0%; /* Updated via JS */
+    border-radius: 20px;
+    box-shadow: 0 0 15px var(--primary);
+    transition: width 0.1s linear;
+}
+
+.time {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    margin-top: 12px;
+    color: var(--text-dim);
+    font-family: monospace;
+}
+
+/* --- 5. BUTTON CONTROLS --- */
+.controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 35px;
+    margin: 25px 0;
+}
+
+.btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 1.6rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn:hover {
+    color: var(--primary);
+    transform: translateY(-3px);
+}
+
+/* Central Play Button */
+.play-pause {
+    width: 80px;
+    height: 80px;
+    background: #fff;
+    color: var(--bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+}
+
+.play-pause:hover {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+}
+
+/* --- 6. PLAYLIST (RIGHT SIDE) --- */
+.playlist {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 25px;
+    padding: 25px;
+    height: 100%;
+    max-height: 550px;
+    display: flex;
+    flex-direction: column;
+}
+
+.playlist h3 {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    border-bottom: 1px solid var(--glass-border);
+    padding-bottom: 10px;
+}
+
+.track-list {
+    list-style: none;
+    overflow-y: auto; /* Scrollable list */
+    padding-right: 10px;
+}
+
+/* Custom Scrollbar */
+.track-list::-webkit-scrollbar { width: 5px; }
+.track-list::-webkit-scrollbar-thumb { 
+    background: var(--glass-border); 
+    border-radius: 10px; 
+}
+
+.track-item {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: var(--transition);
+    margin-bottom: 10px;
+    border: 1px solid transparent;
+}
+
+.track-item:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.track-item.active {
+    background: rgba(99, 102, 241, 0.15);
+    border-color: var(--primary);
+}
+
+.track-item i {
+    margin-right: 15px;
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+/* --- 7. EXTRA CONTROLS --- */
+.speed-control {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+}
+
+select {
+    background: var(--bg);
+    color: white;
+    border: 1px solid var(--primary);
+    padding: 8px 12px;
+    border-radius: 10px;
+    outline: none;
+    cursor: pointer;
+}
+
+/* --- 8. RESPONSIVE DESIGN --- */
+@media (max-width: 950px) {
+    .container {
+        grid-template-columns: 1fr; /* Stack everything vertically */
+        padding: 30px;
+        max-width: 500px;
+    }
+    
+    .playlist {
+        max-height: 350px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 20px;
+        border-radius: 20px;
+    }
+    
+    .song-details h1 {
+        font-size: 1.4rem;
+    }
+    
+    .play-pause {
+        width: 65px;
+        height: 65px;
+    }
+  }
