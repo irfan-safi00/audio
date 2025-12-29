@@ -1,86 +1,365 @@
 <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syllabus with Rohit | Premium Audiobooks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #6366f1;
+            --accent: #f43f5e;
+            --bg: #0f172a;
+            --glass: rgba(255, 255, 255, 0.05);
+            --text: #f8fafc;
+        }
 
-        <!--==================== UNICONS ====================-->
-        
-        
-        <!--==================== SWIPER CSS ====================-->
-        <link rel="stylesheet" href="">
-        
-        <!--==================== CSS ====================-->
-        <link rel="stylesheet" href="">
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        <title>Responsive Portfolio Website</title>
-    </head>
-    <body>
-        <!--==================== HEADER ====================-->
-        <header class="header" id="header">
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle at top right, #1e293b, #0f172a);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            width: 100%;
+            max-width: 1000px;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 30px;
+            padding: 40px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5);
+            animation: slideUp 0.8s ease-out;
+        }
+
+        /* Animations */
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Player Section */
+        .player-main { text-align: center; }
+
+        .cover-art {
+            width: 100%;
+            max-width: 320px;
+            aspect-ratio: 1;
+            margin: 0 auto 25px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            transition: transform 0.5s ease;
+        }
+
+        .cover-art img { width: 100%; height: 100%; object-fit: cover; }
+        .playing .cover-art { transform: scale(1.05); }
+
+        .song-details h1 { font-size: 1.8rem; margin-bottom: 5px; color: #fff; }
+        .song-details p { color: #94a3b8; font-weight: 300; }
+
+        /* Progress Bar */
+        .progress-area {
+            margin: 30px 0 10px;
+            cursor: pointer;
+        }
+
+        .bar-bg {
+            background: rgba(255,255,255,0.1);
+            height: 8px;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .bar-fill {
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            height: 100%;
+            width: 0%;
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .time {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-top: 8px;
+            color: #64748b;
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn:hover { color: var(--primary); transform: scale(1.1); }
+
+        .play-pause {
+            width: 70px;
+            height: 70px;
+            background: #fff;
+            color: #000;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+        }
+
+        .play-pause:hover { background: var(--primary); color: #fff; }
+
+        /* Playlist Section */
+        .playlist {
+            background: rgba(0,0,0,0.2);
+            border-radius: 20px;
+            padding: 20px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .playlist h3 { margin-bottom: 15px; font-size: 1.1rem; }
+
+        .track-list { list-style: none; }
+
+        .track-item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-bottom: 8px;
+            border: 1px solid transparent;
+        }
+
+        .track-item:hover { background: rgba(255,255,255,0.05); }
+        .track-item.active {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary);
+        }
+
+        .track-item i { margin-right: 15px; color: var(--primary); }
+
+        /* Speed Control */
+        .speed-control {
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-size: 0.9rem;
+        }
+
+        select {
+            background: var(--card-bg);
+            color: white;
+            border: 1px solid var(--primary);
+            padding: 5px;
+            border-radius: 5px;
+        }
+
+        /* Responsive */
+        @media (max-width: 850px) {
+            .container { grid-template-columns: 1fr; }
+            .playlist { max-height: 300px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="player-container">
+        <div class="player-main">
+            <div class="cover-art">
+                <img id="main-img" src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=500" alt="Art">
+            </div>
             
-        </header>
+            <div class="song-details">
+                <h1 id="main-title">Chapter Selection</h1>
+                <p>Syllabus with Rohit</p>
+            </div>
 
-        <!--==================== MAIN ====================-->
-        <main class="main">
-            <!--==================== HOME ====================-->
-            <section class="home section" id="home">
-                
-            </section>
+            <div class="progress-area" id="progress-area">
+                <div class="bar-bg">
+                    <div class="bar-fill" id="bar-fill"></div>
+                </div>
+                <div class="time">
+                    <span id="current">0:00</span>
+                    <span id="total">0:00</span>
+                </div>
+            </div>
 
-            <!--==================== ABOUT ====================-->
-            <section class="about section" id="about">
-                
-            </section>
+            <div class="controls">
+                <button class="btn" id="prev"><i class="fas fa-backward-step"></i></button>
+                <button class="btn play-pause" id="play-btn"><i class="fas fa-play"></i></button>
+                <button class="btn" id="next"><i class="fas fa-forward-step"></i></button>
+            </div>
 
-            <!--==================== SKILLS ====================-->
-            <section class="skills section" id="skills">
+            <div class="speed-control">
+                <i class="fas fa-gauge-high"></i>
+                <select id="speed">
+                    <option value="1">1.0x Normal</option>
+                    <option value="1.25">1.25x Fast</option>
+                    <option value="1.5">1.5x Brisk</option>
+                    <option value="2">2.0x Double</option>
+                </select>
+            </div>
+        </div>
 
-            </section>
+        <div class="playlist">
+            <h3>Audiobook Chapters</h3>
+            <ul class="track-list" id="track-list">
+                </ul>
+        </div>
+    </div>
 
-            <!--==================== QUALIFICATION ====================-->
-            <section class="qualification section">
+    <audio id="audio-engine"></audio>
 
-            </section>
+    <script>
+        const audio = document.getElementById('audio-engine');
+        const playBtn = document.getElementById('play-btn');
+        const playIcon = playBtn.querySelector('i');
+        const barFill = document.getElementById('bar-fill');
+        const progressArea = document.getElementById('progress-area');
+        const trackListUI = document.getElementById('track-list');
+        const speedSelect = document.getElementById('speed');
 
-            <!--==================== SERVICES ====================-->
-            <section class="services section" id="services">
-                
-            </section>
+        // 1. DATA CONFIGURATION (Change these to your own files)
+        const tracks = [
+            { 
+                title: "01. Introduction to Exams", 
+                file: "audio/intro.mp3", 
+                img: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=500" 
+            },
+            { 
+                title: "02. History Quick Revision", 
+                file: "audio/history.mp3", 
+                img: "https://images.unsplash.com/photo-1461360370896-922624d12aa1?w=500" 
+            },
+            { 
+                title: "03. Math Shortcuts", 
+                file: "audio/maths.mp3", 
+                img: "https://images.unsplash.com/photo-1509228468518-180dd4864904?w=500" 
+            }
+        ];
 
-            <!--==================== PORTFOLIO ====================-->
-            <section class="portfolio section" id="portfolio">
-                
-            </section>
+        let trackIndex = 0;
+        let isPlaying = false;
 
-            <!--==================== PROJECT IN MIND ====================-->
-            <section class="project section">
+        // 2. INITIALIZE PLAYLIST UI
+        function loadPlaylist() {
+            trackListUI.innerHTML = "";
+            tracks.forEach((track, index) => {
+                const li = document.createElement('li');
+                li.className = `track-item ${index === trackIndex ? 'active' : ''}`;
+                li.innerHTML = `<i class="fas fa-headphones"></i> <span>${track.title}</span>`;
+                li.onclick = () => selectTrack(index);
+                trackListUI.appendChild(li);
+            });
+        }
 
-            </section>
+        // 3. SELECT TRACK
+        function selectTrack(index) {
+            trackIndex = index;
+            const track = tracks[trackIndex];
+            
+            document.getElementById('main-title').innerText = track.title;
+            document.getElementById('main-img').src = track.img;
+            audio.src = track.file;
+            
+            loadPlaylist();
+            if(isPlaying) audio.play();
+        }
 
-            <!--==================== TESTIMONIAL ====================-->
-            <section class="testimonial section">
-                
-            </section>
+        // 4. PLAY / PAUSE LOGIC
+        function togglePlay() {
+            if (audio.paused) {
+                audio.play();
+                isPlaying = true;
+                playIcon.className = "fas fa-pause";
+                document.getElementById('player-container').classList.add('playing');
+            } else {
+                audio.pause();
+                isPlaying = false;
+                playIcon.className = "fas fa-play";
+                document.getElementById('player-container').classList.remove('playing');
+            }
+        }
 
-            <!--==================== CONTACT ME ====================-->
-            <section class="contact section" id="contact">
+        playBtn.addEventListener('click', togglePlay);
 
-            </section>
-        </main>
+        // 5. PROGRESS BAR LOGIC
+        audio.addEventListener('timeupdate', (e) => {
+            const { duration, currentTime } = e.target;
+            const percent = (currentTime / duration) * 100;
+            barFill.style.width = `${percent}%`;
 
-        <!--==================== FOOTER ====================-->
-        <footer class="footer">
-         
-        </footer>
-        
-        <!--==================== SCROLL TOP ====================-->
-        
+            // Time update
+            document.getElementById('current').innerText = formatTime(currentTime);
+            if(duration) document.getElementById('total').innerText = formatTime(duration);
+        });
 
-        <!--==================== SWIPER JS ====================-->
-        <script src=""></script>
+        function formatTime(time) {
+            let min = Math.floor(time / 60);
+            let sec = Math.floor(time % 60);
+            return `${min}:${sec < 10 ? '0'+sec : sec}`;
+        }
 
-        <!--==================== MAIN JS ====================-->
-        <script src=""></script>
-    </body>
+        progressArea.addEventListener('click', (e) => {
+            const width = progressArea.clientWidth;
+            const clickX = e.offsetX;
+            const duration = audio.duration;
+            audio.currentTime = (clickX / width) * duration;
+        });
+
+        // 6. SPEED & NAVIGATION
+        speedSelect.addEventListener('change', () => {
+            audio.playbackRate = parseFloat(speedSelect.value);
+        });
+
+        document.getElementById('next').onclick = () => {
+            trackIndex = (trackIndex + 1) % tracks.length;
+            selectTrack(trackIndex);
+            audio.play();
+            playIcon.className = "fas fa-pause";
+        };
+
+        document.getElementById('prev').onclick = () => {
+            trackIndex = (trackIndex - 1 + tracks.length) % tracks.length;
+            selectTrack(trackIndex);
+            audio.play();
+            playIcon.className = "fas fa-pause";
+        };
+
+        // AUTO-NEXT
+        audio.onended = () => document.getElementById('next').click();
+
+        // INIT
+        window.onload = () => selectTrack(0);
+    </script>
+</body>
 </html>
